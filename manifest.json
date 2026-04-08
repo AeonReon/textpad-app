@@ -1,0 +1,17 @@
+{
+    "name": "TextPad",
+    "short_name": "TextPad",
+    "description": "A clean, personal text editor for your notes",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a1628",
+    "theme_color": "#0a1628",
+    "icons": [
+        {
+            "src": "images/icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
