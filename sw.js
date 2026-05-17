@@ -1,4 +1,4 @@
-const CACHE = 'textpad-v3';
+const CACHE = 'textpad-v4';
 const ASSETS = ['/', '/index.html', '/manifest.json', '/images/icon-192.png', '/images/icon-512.png', '/images/icon-1024.png', '/images/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

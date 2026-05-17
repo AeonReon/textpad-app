@@ -54,35 +54,35 @@
             --safe-bottom: env(safe-area-inset-bottom);
         }
 
-        /* ===== DARK THEME ===== */
+        /* ===== DARK THEME ===== sky-blue + yellow, pulled from the app icons */
         :root[data-theme="dark"] {
-            --bg: #0F1A2C;
-            --surface: #1A2840;
-            --surface-2: #243352;
-            --card: #1F2D49;
-            --card-hover: #2A3A5A;
+            --bg: #103464;
+            --surface: #1A4380;
+            --surface-2: #245599;
+            --card: #1F4A8C;
+            --card-hover: #2A5BA8;
 
-            --text: #ECE6DC;
-            --text-dim: #97A3B8;
-            --text-faint: #5C6B85;
-            --ink-deep: #0E1623;
+            --text: #FFF6E0;
+            --text-dim: #B5C8E0;
+            --text-faint: #708FB2;
+            --ink-deep: #0A2042;
 
-            --accent: #F2BB44;
-            --accent-bright: #FFD05F;
-            --accent-dim: #C68C20;
-            --accent-glow: rgba(242, 187, 68, 0.20);
+            --accent: #FFCC44;
+            --accent-bright: #FFDD66;
+            --accent-dim: #E5A82A;
+            --accent-glow: rgba(255, 204, 68, 0.22);
 
-            --blue: #4A95D4;
+            --blue: #4FA3E0;
             --blue-dim: #2D7AB8;
-            --blue-glow: rgba(74, 149, 212, 0.20);
+            --blue-glow: rgba(79, 163, 224, 0.22);
 
-            --border: rgba(242, 187, 68, 0.20);
-            --border-strong: rgba(242, 187, 68, 0.40);
-            --line: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 204, 68, 0.22);
+            --border-strong: rgba(255, 204, 68, 0.42);
+            --line: rgba(255, 255, 255, 0.10);
 
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.40);
-            --shadow:    0 8px 22px rgba(0, 0, 0, 0.45);
-            --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.55);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.30);
+            --shadow:    0 8px 22px rgba(0, 0, 0, 0.40);
+            --shadow-lg: 0 18px 50px rgba(0, 0, 0, 0.50);
         }
 
         body {
@@ -635,7 +635,7 @@
             const theme = saved === 'dark' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', theme);
             const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', theme === 'dark' ? '#0F1A2C' : '#F7F4EE');
+            if (meta) meta.setAttribute('content', theme === 'dark' ? '#103464' : '#F7F4EE');
         })();
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
@@ -643,7 +643,7 @@
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('textpad_theme', next);
             const meta = document.querySelector('meta[name="theme-color"]');
-            if (meta) meta.setAttribute('content', next === 'dark' ? '#0F1A2C' : '#F7F4EE');
+            if (meta) meta.setAttribute('content', next === 'dark' ? '#103464' : '#F7F4EE');
         }
 
         // State
