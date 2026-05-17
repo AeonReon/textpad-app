@@ -1,5 +1,5 @@
-const CACHE = 'textpad-v1';
-const ASSETS = ['/', '/index.html', '/manifest.json', '/images/icon.png'];
+const CACHE = 'textpad-v2';
+const ASSETS = ['/', '/index.html', '/manifest.json', '/images/icon-192.png', '/images/icon-512.png', '/images/icon-1024.png', '/images/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
     e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));

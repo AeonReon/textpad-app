@@ -5,27 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>TextPad</title>
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="TextPad">
-    <meta name="theme-color" content="#0a1628">
+    <meta name="theme-color" content="#F7F4EE">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="images/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="images/icon-512.png">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         :root {
-            --bg: #0a1628;
-            --surface: #111d35;
-            --card: #162544;
-            --card-hover: #1a2d52;
-            --accent: #d4a853;
-            --accent-glow: rgba(212, 168, 83, 0.15);
-            --accent-dim: #a07d3a;
-            --blue: #2a6fc9;
-            --blue-glow: rgba(42, 111, 201, 0.15);
-            --text: #e8e4dc;
-            --text-dim: #6b7a94;
-            --border: rgba(212, 168, 83, 0.12);
+            /* Surfaces — warm ivory page, white cards */
+            --bg: #F7F4EE;
+            --surface: #FFFFFF;
+            --surface-2: #F0EBE0;
+            --card: #FAF6EC;
+            --card-hover: #ECE4D2;
+
+            /* Ink */
+            --text: #1A2433;
+            --text-dim: #5A6577;
+            --text-faint: #9CA3AF;
+            --ink-deep: #0E1623;
+
+            /* Accent — gold (from icon paper) */
+            --accent: #D9A02D;
+            --accent-bright: #F2BB44;
+            --accent-dim: #A8771A;
+            --accent-glow: rgba(217, 160, 45, 0.14);
+
+            /* Secondary accent — blue (from icon backdrop) */
+            --blue: #2D7AB8;
+            --blue-dim: #1F5A8E;
+            --blue-glow: rgba(45, 122, 184, 0.14);
+
+            /* Lines */
+            --border: rgba(217, 160, 45, 0.22);
+            --border-strong: rgba(217, 160, 45, 0.45);
+            --line: #EAE2CD;
+
+            /* Shadows */
+            --shadow-sm: 0 2px 8px rgba(80, 50, 30, 0.06);
+            --shadow:    0 8px 22px rgba(80, 50, 30, 0.10);
+            --shadow-lg: 0 18px 50px rgba(80, 50, 30, 0.16);
+
             --safe-top: env(safe-area-inset-top);
             --safe-bottom: env(safe-area-inset-bottom);
         }
@@ -60,14 +84,14 @@
             height: 44px;
             border-radius: 12px;
             object-fit: cover;
-            box-shadow: 0 2px 12px rgba(212, 168, 83, 0.2);
+            box-shadow: var(--shadow-sm);
         }
 
         header h1 {
             font-size: 26px;
             font-weight: 700;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--accent), #f0d080);
+            background: linear-gradient(135deg, var(--accent-dim), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -81,27 +105,29 @@
         .header-actions { display: flex; gap: 8px; }
 
         .back-btn, .sort-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 12px;
             padding: 10px 16px;
-            color: var(--accent);
+            color: var(--accent-dim);
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             display: none;
             align-items: center;
             gap: 6px;
-            transition: all 0.2s;
+            transition: transform 0.1s;
         }
 
-        .back-btn:active, .sort-btn:active { background: var(--card-hover); }
+        .back-btn:active, .sort-btn:active { transform: scale(0.97); }
         .back-btn.visible, .sort-btn.visible { display: flex; }
 
         /* ====== GOLD DIVIDER ====== */
         .gold-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-glow), var(--accent), var(--accent-glow), transparent);
+            background: linear-gradient(90deg, transparent, var(--accent), var(--blue), var(--accent), transparent);
             margin: 4px 0 24px;
             opacity: 0.5;
         }
@@ -114,29 +140,30 @@
 
         .search-bar input {
             width: 100%;
-            background: var(--surface);
-            border: 1.5px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 14px;
             padding: 12px 18px 12px 42px;
             color: var(--text);
             font-size: 15px;
             outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: box-shadow 0.2s;
         }
 
         .search-bar input:focus {
-            border-color: var(--blue);
             box-shadow: 0 0 0 3px var(--blue-glow);
         }
 
-        .search-bar input::placeholder { color: var(--text-dim); }
+        .search-bar input::placeholder { color: var(--text-faint); }
 
         .search-icon {
             position: absolute;
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-dim);
+            color: var(--text-faint);
             font-size: 16px;
             pointer-events: none;
         }
@@ -144,11 +171,11 @@
         /* ====== NEW NOTE BUTTON ====== */
         .btn-new-note {
             width: 100%;
-            background: linear-gradient(135deg, var(--accent), #c4953f);
+            background: linear-gradient(135deg, var(--accent-bright), var(--accent));
             border: none;
             border-radius: 14px;
             padding: 15px;
-            color: var(--bg);
+            color: var(--ink-deep);
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
@@ -156,11 +183,13 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            transition: opacity 0.2s, transform 0.1s;
+            box-shadow: 0 4px 14px rgba(217, 160, 45, 0.32);
+            transition: box-shadow 0.15s, transform 0.1s;
             margin-bottom: 20px;
         }
 
-        .btn-new-note:active { opacity: 0.85; transform: scale(0.98); }
+        .btn-new-note:hover { box-shadow: 0 6px 18px rgba(217, 160, 45, 0.42); }
+        .btn-new-note:active { transform: scale(0.98); }
 
         .btn-new-note .plus {
             font-size: 20px;
@@ -176,17 +205,22 @@
         }
 
         .note-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 16px;
-            padding: 18px 20px;
+            padding: 18px 20px 18px 26px;
             cursor: pointer;
-            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.15s, box-shadow 0.2s;
             animation: slideIn 0.25s ease-out;
             position: relative;
+            overflow: hidden;
         }
 
-        .note-card:active { background: var(--card); transform: scale(0.98); }
+        .note-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+        .note-card:active { transform: scale(0.98); }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -244,35 +278,34 @@
         .card-delete {
             background: none;
             border: none;
-            color: transparent;
+            color: var(--text-faint);
             font-size: 20px;
             padding: 4px 8px;
             cursor: pointer;
             transition: color 0.2s;
+            opacity: 0;
         }
 
-        .note-card:hover .card-delete,
-        .note-card:active .card-delete { color: var(--text-dim); }
-        .card-delete:active { color: #e05555 !important; }
+        .note-card:hover .card-delete { opacity: 1; }
+        .card-delete:hover { color: #C75C5C; }
+        .card-delete:active { color: #B14545 !important; }
 
         /* ====== NOTE COLOUR STRIP ====== */
         .note-card::before {
             content: '';
             position: absolute;
             left: 0;
-            top: 14px;
-            bottom: 14px;
-            width: 3px;
-            border-radius: 0 3px 3px 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
             background: var(--accent);
-            opacity: 0.5;
         }
 
         .note-card[data-color="blue"]::before { background: var(--blue); }
         .note-card[data-color="gold"]::before { background: var(--accent); }
-        .note-card[data-color="teal"]::before { background: #2a9d8f; }
-        .note-card[data-color="purple"]::before { background: #7c5cbf; }
-        .note-card[data-color="coral"]::before { background: #e07a5f; }
+        .note-card[data-color="teal"]::before { background: #2A9D8F; }
+        .note-card[data-color="purple"]::before { background: #7C5CBF; }
+        .note-card[data-color="coral"]::before { background: #E07A5F; }
 
         /* ====== EDITOR VIEW ====== */
         .editor-view { display: none; }
@@ -283,7 +316,7 @@
             width: 100%;
             background: none;
             border: none;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 2px solid var(--border-strong);
             padding: 8px 0 12px;
             color: var(--text);
             font-size: 22px;
@@ -297,7 +330,7 @@
             border-color: var(--accent);
         }
 
-        .editor-title-input::placeholder { color: var(--text-dim); }
+        .editor-title-input::placeholder { color: var(--text-faint); }
 
         .editor-meta {
             display: flex;
@@ -328,19 +361,21 @@
         }
 
         .color-dot:active { transform: scale(0.9); }
-        .color-dot.active { border-color: var(--text); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text-dim); }
+        .color-dot.active { border-color: var(--text); box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--text); }
 
         .color-dot[data-c="gold"] { background: var(--accent); }
         .color-dot[data-c="blue"] { background: var(--blue); }
-        .color-dot[data-c="teal"] { background: #2a9d8f; }
-        .color-dot[data-c="purple"] { background: #7c5cbf; }
-        .color-dot[data-c="coral"] { background: #e07a5f; }
+        .color-dot[data-c="teal"] { background: #2A9D8F; }
+        .color-dot[data-c="purple"] { background: #7C5CBF; }
+        .color-dot[data-c="coral"] { background: #E07A5F; }
 
         .editor-textarea {
             width: 100%;
             min-height: calc(100dvh - 300px);
-            background: var(--surface);
-            border: 1.5px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 16px;
             padding: 20px;
             color: var(--text);
@@ -349,15 +384,14 @@
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
             outline: none;
             resize: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            transition: box-shadow 0.2s;
         }
 
         .editor-textarea:focus {
-            border-color: var(--blue);
             box-shadow: 0 0 0 3px var(--blue-glow);
         }
 
-        .editor-textarea::placeholder { color: var(--text-dim); }
+        .editor-textarea::placeholder { color: var(--text-faint); }
 
         /* ====== EMPTY STATE ====== */
         .empty-state {
@@ -378,7 +412,9 @@
         .confirm-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.65);
+            background: rgba(26, 36, 51, 0.32);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -390,16 +426,19 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .confirm-box {
-            background: var(--surface);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 20px;
             padding: 28px 24px;
             max-width: 300px;
             width: 100%;
             text-align: center;
+            box-shadow: var(--shadow-lg);
         }
 
-        .confirm-box p { font-size: 16px; margin-bottom: 20px; line-height: 1.4; }
+        .confirm-box p { font-size: 16px; margin-bottom: 20px; line-height: 1.4; color: var(--text); }
 
         .confirm-buttons { display: flex; gap: 10px; }
 
@@ -409,20 +448,23 @@
             border: none;
             border-radius: 12px;
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
         }
 
         .btn-cancel {
-            background: var(--card);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             color: var(--text);
         }
 
         .btn-confirm-delete {
-            background: #c0392b;
+            background: #C75C5C;
             color: #fff;
         }
+        .btn-confirm-delete:hover { background: #B14545; }
 
         /* ====== NOTES COUNT ====== */
         .notes-count {
@@ -439,18 +481,21 @@
         }
 
         .btn-clear-all {
-            background: none;
-            border: 1px solid rgba(192, 57, 43, 0.3);
-            color: #c0392b;
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, #C75C5C, #8E3B3B) border-box;
+            border: 1.5px solid transparent;
+            color: #C75C5C;
             padding: 12px 28px;
             border-radius: 12px;
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s, color 0.2s, transform 0.1s;
         }
 
-        .btn-clear-all:active { background: #c0392b; color: #fff; }
+        .btn-clear-all:hover { transform: translateY(-1px); }
+        .btn-clear-all:active { background: #C75C5C; color: #fff; transform: scale(0.97); }
 
         /* ====== AUTOSAVE TOAST ====== */
         .toast {
@@ -458,14 +503,17 @@
             bottom: calc(30px + var(--safe-bottom));
             left: 50%;
             transform: translateX(-50%) translateY(80px);
-            background: var(--card);
-            border: 1px solid var(--border);
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                linear-gradient(135deg, var(--accent), var(--blue)) border-box;
+            border: 1.5px solid transparent;
             border-radius: 12px;
             padding: 10px 20px;
             font-size: 13px;
-            color: var(--accent);
-            font-weight: 600;
+            color: var(--accent-dim);
+            font-weight: 700;
             z-index: 50;
+            box-shadow: var(--shadow);
             transition: transform 0.3s ease;
             pointer-events: none;
         }
@@ -477,7 +525,7 @@
     <div class="app">
         <header>
             <div class="header-left">
-                <img src="images/icon.png" class="app-icon" alt="TextPad">
+                <img src="images/icon-512.png" class="app-icon" alt="TextPad">
                 <div>
                     <h1>TextPad</h1>
                     <div class="date-label" id="dateLabel"></div>
